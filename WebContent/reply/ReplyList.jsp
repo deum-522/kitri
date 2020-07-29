@@ -7,32 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-<<<<<<< HEAD
-function submit(){
-	var contentTxt=document.replyForm.content;
-		
-}
-</script>
-<script>
-function contentCheck(){
-	var contentTxt=document.replyForm.content;
-	
-	if(contentTxt.value == ""){
-		alert("³»¿ëÀ» ±âÀçÇØ ÁÖ¼¼¿ä.");
-		idTxt.value="";
-		idTxt.focus();
-		return false;		
-	}
-	else{
-		submit();
-		reload();
-	}
-}
-</script>
-<script>
-function submit(){
-	var
-=======
 function getXMLHttpRequest(){
 	var httpRequest = null;
 	
@@ -74,7 +48,6 @@ function checkFunc(){
 		var resultText = httpRequest.responseText;
 		document.location.reload();					
 	}
->>>>>>> acf9d578f5a7d799af92fbf127c4b3dbb4133bf8
 }
 </script>
 </head>
@@ -87,15 +60,6 @@ function checkFunc(){
 	<table border="1" cellspacing="0" >
 		<c:forEach var="reply" items="${list}">
 			<tr>
-<<<<<<< HEAD
-				<td>${reply.name }</td><td>${reply.content }</td><td>${reply.w_date }<td><a href="DelReplyController">»èÁ¦</a></td>
-			</tr>
-		</c:forEach>
-	</table>	
-	<h3>´ñ±Û ÀÛ¼º</h3>
-		<form method="post" name="replyform">
-			<input type="text" name="content"/><input type="submit" value="ÀÛ¼º" onclick="contentCheck()"/>
-=======
 				<td>${reply.getName() }</td><td>${reply.getContent() }</td><td>${reply.getW_date() }</td>
 					<c:if test="${ sessionScope.id == reply.getId() }">  
 						<td><a href="${pageContext.request.contextPath }/DelReplyController?replyseq=${reply.getReplyseq()}">ì‚­ì œ</a></td>
@@ -106,7 +70,6 @@ function checkFunc(){
 	<h3>ëŒ“ê¸€ ìž‘ì„±</h3>
 		<form id="writeCommentForm">
 			<input type="text" name="content"/><input type="button" value="ìž‘ì„±" onclick="writeCmt()" />
->>>>>>> acf9d578f5a7d799af92fbf127c4b3dbb4133bf8
 		</form>
 </body>
 </html>
