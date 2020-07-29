@@ -16,7 +16,7 @@ public class Dao {
 		db = DBConnect.getInstance();
 	}
 	
-	public ArrayList<Reply> selectAll() {
+	public ArrayList<Reply> selectAll(int boardseq) {
 		
 		Connection conn = null;
 		ResultSet rs = null;
@@ -25,13 +25,14 @@ public class Dao {
 		
 		try {			
 			conn = db.getConnection();
-			String sql = "select * from reply";
+			String sql = "select * from reply where boardseq = ? order by replyseq";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardseq);
 			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				list.add(new Reply(rs.getInt("seq"), rs.getString("id"), rs.getString("name"), rs.getString("content"), rs.getString("w_date")));
+				list.add(new Reply(rs.getInt("replyseq"), rs.getInt("boardseq"), rs.getString("id"), rs.getString("name"), rs.getString("content"), rs.getString("w_date")));
 			}
 
 		} catch (SQLException e) {
@@ -50,7 +51,7 @@ public class Dao {
 		return list;
 	}// selectAll method End	
 	
-public void insert(String content) {
+	public void insert(Reply reply) {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;		
@@ -58,13 +59,13 @@ public void insert(String content) {
 		
 		try {			
 			conn = db.getConnection();
-			String sql = "insert into reply values(?, ?, ?, ?, sysdate)";
+			String sql = "insert into reply values((select max(replyseq) from reply)+1, ?, ?, ?, ?, sysdate)";
 			pstmt = conn.prepareStatement(sql);
-			int a = 2;
-			pstmt.setInt(1, a); // 수정필요 next val 사용
-			pstmt.setString(2, "id" ); // 수정필요 session id
-			pstmt.setString(3, "park"); // 수정필요 session name
-			pstmt.setString(4, content);
+			
+			pstmt.setInt(1, reply.getBoardseq()); 
+			pstmt.setString(2, reply.getId());
+			pstmt.setString(3, reply.getName());
+			pstmt.setString(4, reply.getContent());
 					
 			pstmt.executeUpdate();
 
@@ -82,4 +83,31 @@ public void insert(String content) {
 			}
 		}		
 	}// insert method End	
+
+	public void delete(int replyseq) {
+	
+		Connection conn = null;
+		PreparedStatement pstmt = null;		
+		ResultSet rs = null;
+	
+		try {			
+			conn = db.getConnection();
+			String sql = "delete from reply where replyseq = ?";
+			pstmt = conn.prepareStatement(sql);
+		
+			pstmt.setInt(1, replyseq); 
+				
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+	}// delete method End	
 }

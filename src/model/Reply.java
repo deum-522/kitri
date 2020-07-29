@@ -1,23 +1,29 @@
 package model;
 
 public class Reply {
-	int seq;
-	String id;
-	String name;
-	String content;
-	String w_date;	
+	private int replyseq;
+	private int boardseq;
+	private String id;
+	private String name;
+	private String content;
+	private String w_date;	
 	
 	public Reply() {}
 	
-	public Reply(String id, String name, String content, String w_date) {
+	public Reply(int boardseq, String id, String name, String content, String w_date) {
+		this.boardseq = boardseq;
 		this.id = id;
 		this.name = name;
 		this.content = content;
 		this.w_date = w_date;
 	}
 	
-	public Reply(int seq, String id, String name, String content, String w_date) {
-		this.seq = seq;
+	
+
+	public Reply(int replyseq, int boardseq, String id, String name, String content, String w_date) {
+		super();
+		this.replyseq = replyseq;
+		this.boardseq = boardseq;
 		this.id = id;
 		this.name = name;
 		this.content = content;
@@ -26,19 +32,28 @@ public class Reply {
 
 	@Override
 	public String toString() {
-		return "num : " + seq +
+		return "replyseq : "  + replyseq +
+				 "boardseq : " + boardseq +
 				 "id : " + id +
 				 "name : " + name +
 				 "content : " + content +
 				 "w_date : " + w_date;
 	}
 
-	public int getSeq() {
-		return seq;
+	public int getReplyseq() {
+		return replyseq;
 	}
 
-	public void setSeq(int seq) {
-		this.seq = seq;
+	public void setReplyseq(int replyseq) {
+		this.replyseq = replyseq;
+	}
+
+	public int getBoardseq() {
+		return boardseq;
+	}
+
+	public void setBoardseq(int boardseq) {
+		this.boardseq = boardseq;
 	}
 
 	public String getId() {
@@ -71,7 +86,9 @@ public class Reply {
 
 	public void setW_date(String w_date) {
 		this.w_date = w_date;
-	}	
+	}
+
+	
 		
 	
 }

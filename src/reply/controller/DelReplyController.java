@@ -1,7 +1,6 @@
 package reply.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,16 +12,16 @@ import model.Reply;
 import reply.dao.Dao;
 
 /**
- * Servlet implementation class WriteController
+ * Servlet implementation class DelReplyController
  */
-@WebServlet("/WriteController")
-public class WriteController extends HttpServlet {
+@WebServlet("/DelReplyController")
+public class DelReplyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public WriteController() {
+    public DelReplyController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,18 +36,11 @@ public class WriteController extends HttpServlet {
 		
 		Dao dao = new Dao();
 		
-		String content = request.getParameter("content");
-		//int boardseq = Integer.parseInt(request.getParameter("boardseq"));
-		int boardseq = 1;
-		HttpSession session = request.getSession();
-		String id = (String) session.getAttribute("id");
-		String name = (String) session.getAttribute("name");
+		int replyseq = Integer.parseInt(request.getParameter("replyseq"));
 		
-		Reply reply = new Reply(boardseq, id, name, content, "date");
+		dao.delete(replyseq);
 		
-		dao.insert(reply);
-		
-		//response.sendRedirect(request.getContextPath()+"/ReplyList.jsp");
+		response.sendRedirect("/boardPjt/test.jsp");
 	}
 
 	/**

@@ -3,7 +3,6 @@ package reply.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,12 +31,14 @@ public class ListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("euc-kr");
-		response.setContentType("text/html; charset=EUC-KR");
-		response.setCharacterEncoding("euc-kr");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		
 		Dao dao = new Dao();
-		ArrayList<Reply> list = dao.selectAll();
+		//int boardseq = Integer.parseInt(request.getParameter("boardseq"));
+		int boardseq = 1;
+		ArrayList<Reply> list = dao.selectAll(boardseq);
 		
 		request.setAttribute("list", list);
 		/*
