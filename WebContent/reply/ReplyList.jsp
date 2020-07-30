@@ -7,6 +7,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
+function delConfirm(replyseq){
+	var result = confirm("정말로 삭제할까요?");
+	if(result){
+	    location.href="http://localhost:8081/Practice1/DelReplyController?replyseq=" + String(replyseq)
+	}else{
+	    alert("취소 되었습니다.");
+	}
+}
+
 function getXMLHttpRequest(){
 	var httpRequest = null;
 	
@@ -38,8 +47,8 @@ function writeCmt(){
 		
 		httpRequest = getXMLHttpRequest();
 		httpRequest.onreadystatechange = checkFunc;
-		httpRequest.open("POST", "http://localhost:1080/boardPjt/WriteController",true);
-		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=EUC-KR');
+		httpRequest.open("POST", "http://localhost:8081/Practice1/WriteController",true);
+		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
 		httpRequest.send(param);
 	}
 }
@@ -51,22 +60,27 @@ function checkFunc(){
 }
 </script>
 </head>
-<body><!-- 내 아이디와 같으면 수정, 삭제가 보이도록 하기 ??-->
-<%
-	RequestDispatcher rd = request.getRequestDispatcher("ListController");
-	rd.include(request, response);
-%>
+<body>
+	<c:import url="/ListController">
+		<c:param name="colcnt" value = "10"/>
+	</c:import>
 	<h3>댓글 목록</h3>	
 	<table border="1" cellspacing="0" >
 		<c:forEach var="reply" items="${list}">
 			<tr>
 				<td>${reply.getName() }</td><td>${reply.getContent() }</td><td>${reply.getW_date() }</td>
 					<c:if test="${ sessionScope.id == reply.getId() }">  
-						<td><a href="${pageContext.request.contextPath }/DelReplyController?replyseq=${reply.getReplyseq()}">삭제</a></td>
+						<td><a href="javascript:delConfirm(${reply.getReplyseq()})">삭제</a></td>
 					</c:if>					
 			</tr>
 		</c:forEach>
 	</table>	
+	
+		<c:forEach var="pagenum" begin= "1" end  = "${size}">
+			<a href="http://localhost:8081/Practice1/reply/ReplyList.jsp?pagenum=${pagenum}" >${pagenum}</a>
+		</c:forEach>
+	
+	
 	<h3>댓글 작성</h3>
 		<form id="writeCommentForm">
 			<input type="text" name="content"/><input type="button" value="작성" onclick="writeCmt()" />

@@ -36,17 +36,29 @@ public class ListController extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		
 		Dao dao = new Dao();
-		//int boardseq = Integer.parseInt(request.getParameter("boardseq"));
 		int boardseq = 1;
-		ArrayList<Reply> list = dao.selectAll(boardseq);
+		ArrayList<Reply> temp = dao.selectAll(boardseq);
+		ArrayList<Reply> list = new ArrayList<Reply>();
+		int pagenum = 1;
+		
+		if(request.getParameter("pagenum") != null ) {
+			pagenum = Integer.parseInt(request.getParameter("pagenum"));
+		}
+		
+		int page = Integer.parseInt((String)request.getParameter("colcnt")) * (pagenum - 1);
+		int last = page + 10; 
+		if(page + 10 > temp.size()) {
+			last = temp.size();
+		}
+		
+		for(int i = page; i < last; i++ ) {
+			list.add(temp.get(i));
+		}		
+		
 		
 		request.setAttribute("list", list);
-		/*
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/ReplyList.jsp");
-		if (dispatcher != null) {
-			dispatcher.forward(request, response);
-		}
-		*/
+		int size = ( ( temp.size() - 1 ) / 10 )+ 1;
+		request.setAttribute("size", size);
 	}
 
 	/**

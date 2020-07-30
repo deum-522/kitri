@@ -40,7 +40,7 @@ public class DelReplyController extends HttpServlet {
 		
 		dao.delete(replyseq);
 		
-		response.sendRedirect("/boardPjt/test.jsp");
+		response.sendRedirect(request.getHeader("referer"));
 	}
 
 	/**

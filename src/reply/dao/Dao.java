@@ -59,7 +59,7 @@ public class Dao {
 		
 		try {			
 			conn = db.getConnection();
-			String sql = "insert into reply values((select max(replyseq) from reply)+1, ?, ?, ?, ?, sysdate)";
+			String sql = "insert into reply values(replyseq.nextval, ?, ?, ?, ?, sysdate)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, reply.getBoardseq()); 
